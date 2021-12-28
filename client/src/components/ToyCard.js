@@ -29,6 +29,7 @@ function ToyCard({ toy, onDeleteToy, onUpdateToy }) {
       .then((updatedToy) => onUpdateToy(updatedToy));
   }
 
+  console.log(id);
   return (
     <div className="card">
       <h2>{name}</h2>

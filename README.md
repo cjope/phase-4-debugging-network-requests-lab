@@ -63,11 +63,26 @@ developing your own process.
 - Add a new toy when the toy form is submitted
 
   - How I debugged:
+    When Posting a blank form, I get a 500 error - so good news is it's the server's fault, not the user's. Bad news is I'm also the server so I still need to fix this.
+    I'm also getting a Warning: "Each child in a list should have a unique key" which I usually see if a key isn't asigned to a <ul> or <ol> so I'm not sure if that's important - although it could mean that a param is not being assigned? Let's take a look see.
+    I also get a helpful message saying "check the method of ToyContainer" so I'll take a look at that for some clues, but I'm not supposed to change any js, so..
+    Looks fine. Rendering is doing as it should - the problem lies when the new toy is being created - an id is not assigned. listing all id's shows undefined. Let's take a look at the "create" method.
+    Ah, we have a "NameError (uninitialized constant ToysController::Toys):"
+    A far too familiar mistake - the Toy class has been pluralized and should be "Toy": toy = Toy.create(toy_params)
+    I can now add my nameless, faceless toy, like it once, and donate it to a corporation guised as a charity. What a ride.
 
 - Update the number of likes for a toy
 
   - How I debugged:
+    Byebug in toys_controller update
+    Everything seems to be set up correctly but it's just not doing anything. It just finds the toy by id and then updates it. It needs an increment for likes. Adding toy.likes + 1 before toy.update
+    Oh. React already does this. I just need to return this in json form. math's taken care of.
+    Nice. Toys are being liked.
 
 - Donate a toy to Goodwill (and delete it from our database)
 
   - How I debugged:
+    "ActionController::RoutingError (No route matches [DELETE] "/toys/2"):"
+    Sounds like there is no "delete" route or at least not set up correctly? Check config/routes.rb
+    Does it need to be called "delete"??
+    Nope. Looks like it's working fine now.
